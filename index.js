@@ -21,13 +21,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('leave', ({userId, userName}) => {
-      console.log('user ' + user.userName + ' left chat');
+      console.log('user ' + userName + ' left chat');
       socket.broadcast.emit('left', {userId, userName, type: 'info', message: 'left chat'});
     });
 
     socket.on('my-message', ({message, userId, userName}) => {
-      console.log(user + ' wrote message: ' + message);
-      io.emit('chat-broadcast', {userId, userName, type: 'message', message});
+      console.log(userName + ' wrote message: ' + message);
+      socket.emit('chat-broadcast', {userId, userName, type: 'message', message});
+      socket.broadcast.emit('chat-broadcast', {userId, userName, type: 'message', message});
+
     });
 
   });
