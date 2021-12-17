@@ -5,48 +5,33 @@ const io = require('socket.io')(http, {
       origins: ['http://localhost:8081']
     }
   });
-const DataBase = require("./database.js");
-
-const db = new DataBase();
 
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>');
 });
+
 io.on('connection', (socket) => {
     const user = socket.handshake.auth;
 
     console.log('a user ' + user.userName + ' connected');
   
-    socket.on('disconnect', () => {
-      console.log('user ' + user.userName + ' disconnected');
+    socket.on('join', ({userId, userName}) => {
+      console.log('user ' + userName + ' joined');
+      socket.broadcast.emit('joined', {userId, userName, type: 'info', message: 'joined chat'});
     });
 
-    socket.on('my-message', async (message) => {
-        console.log(`${user.userName}: ${message.message}`);
-        const data = {
-          message: message.message,
-          user_id: socket.id,
-          name: message.user,
-        };
-        await db.storeUserMessage(data);
-        socket.broadcast.emit('chat-broadcast', message)
+    socket.on('leave', ({userId, userName}) => {
+      console.log('user ' + user.userName + ' left chat');
+      socket.broadcast.emit('left', {userId, userName, type: 'info', message: 'left chat'});
     });
 
-    socket.on("joined", async (name) => {
-      let messageData = null;
-      const data = {
-        name,
-        user_id: socket.id,
-      };
-      console.log('try to add new user')
-      const user = await db.addUser(data);
-      console.log('user joined: ', user)
-      if (user) {
-        messageData = await db.fetchUserMessages(data);
-      }
-      socket.broadcast.emit("joined", messageData);
+    socket.on('my-message', ({message, userId, userName}) => {
+      console.log(user + ' wrote message: ' + message);
+      io.emit('chat-broadcast', {userId, userName, type: 'message', message});
     });
+
   });
+
 http.listen(3000, () => {
   console.log('listeninghttp on *:3000');
 });
