@@ -1,5 +1,5 @@
 const app = require('express')();
-const http = require('http').Server(app);
+const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: {
       origins: ['http://localhost:8081']
@@ -27,8 +27,8 @@ io.on('connection', (socket) => {
 
     socket.on('my-message', ({message, userId, userName}) => {
       console.log(userName + ' wrote message: ' + message);
-      socket.emit('chat-broadcast', {userId, userName, type: 'message', message});
-      socket.broadcast.emit('chat-broadcast', {userId, userName, type: 'message', message});
+      // socket.emit('chat-broadcast', {userId, userName, type: 'message', message});
+      io.emit('chat-broadcast', {userId, userName, type: 'message', message});
 
     });
 
