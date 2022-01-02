@@ -1,11 +1,26 @@
 {
   "messages": [
     {
-      "message": "dfgfdgg",
-      "type": "message",
+      "createdAt": "2022-01-02T21:10:10.712Z",
+      "userId": "c15caed4-21e4-4de4-a677-8da82fbcf1bf",
+      "userName": "admin",
+      "type": "info",
+      "message": "joined chat"
+    },
+    {
+      "createdAt": "2022-01-02T21:11:48.571Z",
       "userId": "de4e1124-9545-4d53-acae-06c7367c1db6",
       "userName": "Test user",
-      "id": "946e07d6-7e2e-49d6-803b-819dd333f42a"
+      "type": "info",
+      "message": "joined chat"
+    },
+    {
+      "messageId": "b53dd9ea-97eb-44b8-a217-cc89b6a08f1b",
+      "createdAt": "2022-01-02T21:11:51.205Z",
+      "message": "jghjg",
+      "userName": "Test user",
+      "userId": "de4e1124-9545-4d53-acae-06c7367c1db6",
+      "roomname": "userChat12345"
     }
   ]
 }
