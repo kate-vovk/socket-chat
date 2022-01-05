@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "messageId": "08404468-080a-44dd-8403-c2285b14dc2b",
+      "createdAt": "2022-01-05T11:51:03.768Z",
+      "userId": "de4e1124-9545-4d53-acae-06c7367c1db6",
+      "userName": "Test user",
+      "type": "info",
+      "message": "joined chat"
+    }
+  ]
+}
