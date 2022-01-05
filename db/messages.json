@@ -1,12 +1,27 @@
 {
   "messages": [
     {
-      "messageId": "08404468-080a-44dd-8403-c2285b14dc2b",
-      "createdAt": "2022-01-05T11:51:03.768Z",
+      "messageId": "ade493b1-863c-42e2-a9e1-88eb4ab81fff",
+      "createdAt": "2022-01-05T12:35:24.469Z",
       "userId": "de4e1124-9545-4d53-acae-06c7367c1db6",
       "userName": "Test user",
       "type": "info",
       "message": "joined chat"
+    },
+    {
+      "messageId": "3aa0d07b-a926-4e36-91ed-8382df529065",
+      "createdAt": "2022-01-05T12:35:28.298Z",
+      "message": "fddfgfdgdfgdfgfdgdf",
+      "userName": "Test user",
+      "userId": "de4e1124-9545-4d53-acae-06c7367c1db6"
+    },
+    {
+      "messageId": "73fac493-0dad-4ee3-b5a1-f74bc885aad5",
+      "createdAt": "2022-01-05T12:35:32.134Z",
+      "userId": "de4e1124-9545-4d53-acae-06c7367c1db6",
+      "userName": "Test user",
+      "type": "info",
+      "message": "left chat"
     }
   ]
 }
