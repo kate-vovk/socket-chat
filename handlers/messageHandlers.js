@@ -2,25 +2,13 @@ const { v4: uuidv4 } = require('uuid');
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-// БД хранится в директории "db" под названием "messages.json"
 const adapter = new FileSync('db/messages.json')
 const db = low(adapter)
 
 module.exports = (io, socket) => {
-    // обрабатываем запрос на получение сообщений
     const getMessages = () => {
-      // получаем сообщения из БД
       const messages = db.get('messages').value()
-      // передаем сообщения пользователям, находящимся в комнате
-      // синонимы - распространение, вещание, публикация
-      console.log('messages: ', messages);
       return messages;
-    }
-
-    const passAllMessages = () => {
-      // выполняем запрос на получение сообщений
-      console.log('passAllMessages');
-      io.to(socket.roomId).emit('chat-broadcast', getMessages())
     }
 
     const addMessage = (message) => {
@@ -32,13 +20,13 @@ module.exports = (io, socket) => {
           })
           .write()
     
-        // выполняем запрос на получение сообщений
-        io.to(socket.roomId).emit('chat-broadcast', getMessages())
+        io.to(socket.roomName).emit('chat-broadcast', getMessages())
       }
 
-      const joinMessage = ({userId, userName, roomname}) => {
-        console.log('user ' + userName + ' joined');
-        socket.join(socket.roomId);
+      const joinMessage = ({userId, userName}) => {
+        socket.join(socket.roomName);
+        console.log('a user ' + userName + ' connected to ' + socket.roomName);
+
         db.get('messages')
           .push({
             messageId: uuidv4(),
@@ -47,8 +35,7 @@ module.exports = (io, socket) => {
           })
           .write()
     
-        // выполняем запрос на получение сообщений
-        io.to(socket.roomId).emit('chat-broadcast', getMessages());
+        io.to(socket.roomName).emit('chat-broadcast', getMessages());
       }
 
       const leaveMessage = ({userId, userName}) => {
@@ -60,19 +47,11 @@ module.exports = (io, socket) => {
           })
           .write()
     
-        // выполняем запрос на получение сообщений
-        io.to(socket.roomId).emit('chat-broadcast', getMessages())
-        socket.leave(socket.roomId)
+        io.to(socket.roomName).emit('chat-broadcast', getMessages())
+        socket.leave(socket.roomName)
       }
-    // const removeMessage = (messageId) => {
-    //     db.get('messages').remove({ messageId }).write()
-    
-    //     getMessages()
-    // }
 
-    socket.on('message:get', passAllMessages)
     socket.on('my-message', addMessage)
     socket.on('join', joinMessage)
     socket.on('leave', leaveMessage)
-    // socket.on('message:remove', removeMessage)
 }
